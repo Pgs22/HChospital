@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\JsonResponse; //Para salida de datos de un 
 use Symfony\Component\HttpFoundation\Response; //Para salida de datos de un boolean
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request; //Para la entrada de datos
-//use Symfony\Component\HttpFoundation\JsonRequest; //Para entrada de datos de un json si vienen de fuera
+
 
 //Para identificar que todas las funciones estan en la misma carpeta
 //#[Route('/nurse')]
@@ -31,15 +31,15 @@ final class MyController extends AbstractController
         //RECUPERAR FICHERO JSON
         //Indicamos ruta del json
         $jsonFilePath = $this->getParameter('kernel.project_dir') . '/public/data/nurses.json';
-        // compare input con nurses.json
-            //Para leer el contenido del archivo
+        //Para leer el contenido del json
         $jsonContent = file_get_contents($jsonFilePath);
-            //Para añadir los objetos json a un array asociativo
+        //Para añadir los objetos json a un array asociativo
         $usersData = json_decode($jsonContent, true);
 
         //************************************************************************************************
         //PARA BUSCAR Y COMPARAR        
         // Para buscar y comparar datos en la url con datos del array extraídos del json
+        $loginSuccess = false;
         foreach ($usersData as $userData) {
             if ($userData['user'] === $user && 
                 $userData['password'] === $password) {
@@ -55,13 +55,13 @@ final class MyController extends AbstractController
         if ($loginSuccess) {
             return new JsonResponse(
                 ['success' => true, 'message' => 'True'], 
-                status: Response::HTTP_OK // Código 200 OK
+                //status: Response::HTTP_OK // Código 200 OK
             );
         } else {
             // Error 401 Unauthorized o 400 Bad Request
             return new JsonResponse(
                 ['success' => false, 'message' => 'False'], 
-                status: Response::HTTP_UNAUTHORIZED 
+                //status: Response::HTTP_UNAUTHORIZED 
             ); 
         }
         
