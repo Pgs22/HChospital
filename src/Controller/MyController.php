@@ -9,23 +9,20 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request; //Para la entrada de datos
 
 
-//Para identificar que todas las funciones estan en la misma carpeta
-//#[Route('/nurse')]
 final class MyController extends AbstractController
 {
     //JsonResponse formato estandard para todos los ficheros
     #[Route('/nurse/login/', name: 'app_Nurse')]
-    //public function login(string $name, string $password): JsonResponse
+
     public function login(Request $request): JsonResponse
     {
 
         //************************************************************************************************
         //RECUPERAR PARAMETROS
-        //ejemplo: http://localhost:8080/nurse/login?nombreparametro=valor&nombreparametro2=valor2
+        //ejemplo: http://localhost:8080/nurse/login?user=valor1&password=valor2
         // get parameter input(user, password)
         $user = $request->query->get('user');
         $password = $request->query->get('password');                
-
 
         //************************************************************************************************
         //RECUPERAR FICHERO JSON
@@ -39,7 +36,7 @@ final class MyController extends AbstractController
         //************************************************************************************************
         //PARA BUSCAR Y COMPARAR        
         // Para buscar y comparar datos en la url con datos del array extraídos del json
-        $loginSuccess = false;
+        //$loginSuccess = false; // Para que 
         foreach ($usersData as $userData) {
             if ($userData['user'] === $user && 
                 $userData['password'] === $password) {
@@ -55,29 +52,15 @@ final class MyController extends AbstractController
         if ($loginSuccess) {
             return new JsonResponse(
                 ['success' => true, 'message' => 'True'], 
-                //status: Response::HTTP_OK // Código 200 OK
+                status: Response::HTTP_OK // Código 200 OK
             );
         } else {
             // Error 401 Unauthorized o 400 Bad Request
             return new JsonResponse(
                 ['success' => false, 'message' => 'False'], 
-                //status: Response::HTTP_UNAUTHORIZED 
+                status: Response::HTTP_UNAUTHORIZED 
             ); 
         }
-        
-        /*
-        //Busca valor name
-        $nameExists = false;
-        foreach ($users as $user) {
-            if (isset($user['name'])) {
-                $nameExists = true;
-                break;
-            }
-        }
-        // si son iguales ret true , si no false
-        return new JsonResponse(['exists' => $nameExists], status: Response::HTTP_OK);
-        //return $nameExists; //Si quiero que me devuelva un boolean en vez de un json
-        */
-        
+    
     }
 }
