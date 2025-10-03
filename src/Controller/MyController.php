@@ -20,9 +20,20 @@ final class MyController extends AbstractController
         //************************************************************************************************
         //RECUPERAR PARAMETROS
         //ejemplo: http://localhost:8080/nurse/login?user=valor1&password=valor2
-        // get parameter input(user, password)
-        $user = $request->query->get('user');
-        $password = $request->query->get('password');           
+        // POST parameter input(user, password)
+        //$user = $request->query->get('user');
+        //$password = $request->query->get('password');
+        
+        /*
+        if (isset($_POST['usuario'])) {
+            $user = htmlspecialchars($_POST['user']);
+        }
+        if (isset($_POST['contrasena'])) {
+            $password = $_POST['password'];           
+        }
+        */
+        $user = $request->query->$_POST['usuario'];
+        $password = $request->query->$_POST['password'];  
 
         //************************************************************************************************
         //RECUPERAR FICHERO JSON
