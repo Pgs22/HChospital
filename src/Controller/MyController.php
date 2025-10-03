@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse; //Para salida de datos de un json
-use Symfony\Component\HttpFoundation\Response; //Para salida de datos de un boolean
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request; //Para la entrada de datos
 
@@ -12,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request; //Para la entrada de datos
 final class MyController extends AbstractController
 {
     //JsonResponse formato estandard para todos los ficheros
-    #[Route('/nurse/login/', name: 'app_Nurse')]
+    #[Route('/nurse/login', name: 'app_Nurse')]
 
     public function login(Request $request): JsonResponse
     {
@@ -20,21 +19,10 @@ final class MyController extends AbstractController
         //************************************************************************************************
         //RECUPERAR PARAMETROS
         //ejemplo: http://localhost:8080/nurse/login?user=valor1&password=valor2
-        // POST parameter input(user, password)
-        //$user = $request->query->get('user');
-        //$password = $request->query->get('password');
-        
-        /*
-        if (isset($_POST['usuario'])) {
-            $user = htmlspecialchars($_POST['user']);
-        }
-        if (isset($_POST['contrasena'])) {
-            $password = $_POST['password'];           
-        }
-        */
-        $user = $request->query->$_POST['usuario'];
-        $password = $request->query->$_POST['password'];  
-
+        // GET parameter input(user, password)
+        $user = $request->request->get('user');
+        $password = $request->request->get('password',"");  
+      
         //************************************************************************************************
         //RECUPERAR FICHERO JSON
         //Indicamos ruta del json
@@ -47,8 +35,8 @@ final class MyController extends AbstractController
         //************************************************************************************************
         //PARA BUSCAR Y COMPARAR        
         // Para buscar y comparar datos en la url con datos del array extraídos del json
-        $loginSuccess = false; // Para que 
-        
+        $loginSuccess = false; // Para que sea falso por defecto antes de buscar en el array del json
+        //Comparamos y si coincide cambiamos la variable $loginSuccess a true
         foreach ($usersData as $userData) {
         
             if ($userData['user'] === $user && 
