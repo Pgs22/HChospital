@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse; //Para salida de datos de un json
+use Symfony\Component\HttpFoundation\Response; //Para salida de datos de un boolean
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request; //Para la entrada de datos
 
