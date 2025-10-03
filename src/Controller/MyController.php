@@ -22,7 +22,7 @@ final class MyController extends AbstractController
         //ejemplo: http://localhost:8080/nurse/login?user=valor1&password=valor2
         // get parameter input(user, password)
         $user = $request->query->get('user');
-        $password = $request->query->get('password');                
+        $password = $request->query->get('password');           
 
         //************************************************************************************************
         //RECUPERAR FICHERO JSON
@@ -36,8 +36,10 @@ final class MyController extends AbstractController
         //************************************************************************************************
         //PARA BUSCAR Y COMPARAR        
         // Para buscar y comparar datos en la url con datos del array extraídos del json
-        //$loginSuccess = false; // Para que 
+        $loginSuccess = false; // Para que 
+        
         foreach ($usersData as $userData) {
+        
             if ($userData['user'] === $user && 
                 $userData['password'] === $password) {
                 
