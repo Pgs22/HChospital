@@ -4,34 +4,36 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse; //Para salida de datos de un json
-use Symfony\Component\HttpFoundation\Response; //Para salida de datos de un boolean
+use Symfony\Component\HttpFoundation\Response; //Para salida de datos (Códigos de error)
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\Request; //Para la entrada de datos
+use Symfony\Component\HttpFoundation\Request; //Para la entrada de datos 
 
 
 final class MyController extends AbstractController
 {
     //JsonResponse formato estandard para todos los ficheros
-    #[Route('/nurse/login', name: 'app_Nurse')]
+    #[Route('/nurse/login', name: 'app_Nurse', methods: ['POST'])]
 
     public function login(Request $request): JsonResponse
     {
 
         //************************************************************************************************
-        //RECUPERAR PARAMETROS
-        //ejemplo: http://localhost:8080/nurse/login?user=valor1&password=valor2
-        // GET parameter input(user, password)
-        $user = $request->request->get('user');
-        $password = $request->request->get('password',"");  
-      
-        //************************************************************************************************
-        //RECUPERAR FICHERO JSON
+        //RECUPERAR PARAMETROS del json
         //Indicamos ruta del json
         $jsonFilePath = $this->getParameter('kernel.project_dir') . '/public/data/nurses.json';
         //Para leer el contenido del json
         $jsonContent = file_get_contents($jsonFilePath);
         //Para añadir los objetos json a un array asociativo
         $usersData = json_decode($jsonContent, true);
+
+        //************************************************************************************************        
+        // POST parameter input(user, password) leer json desde postman
+        // Para añadir los objetos user y password de entrada datos json a un array asociativo
+        $input = json_decode($request->getContent(), true);
+
+        $user = $input['user'];
+        $password = $input['password'];
+        //dd($input); Pruebas para ver en postman los datos que recoge y pare aquí      
 
         //************************************************************************************************
         //PARA BUSCAR Y COMPARAR        
@@ -40,8 +42,8 @@ final class MyController extends AbstractController
         //Comparamos y si coincide cambiamos la variable $loginSuccess a true
         foreach ($usersData as $userData) {
         
-            if ($userData['user'] === $user && 
-                $userData['password'] === $password) {
+            if ($userData['user'] == $user && 
+                $userData['password'] == $password) {
                 
                 $loginSuccess = true;
                 break;
