@@ -8,11 +8,11 @@ use Symfony\Component\HttpFoundation\Response; //Para salida de datos (Códigos 
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request; //Para la entrada de datos 
 
-
+#[Route('/nurse')]
 final class MyController extends AbstractController
 {
     //JsonResponse formato estandard para todos los ficheros
-    #[Route('/nurse/login', name: 'app_Nurse', methods: ['POST'])]
+    #[Route('/login', name: 'app_Nurse', methods: ['POST'])]
 
     public function login(Request $request): JsonResponse
     {
@@ -20,7 +20,7 @@ final class MyController extends AbstractController
         //************************************************************************************************
         //RECUPERAR PARAMETROS del json
         //Indicamos ruta del json
-        $jsonFilePath = $this->getParameter('kernel.project_dir') . '/public/data/nurses.json';
+        $jsonFilePath = $this->getParameter('kernel.project_dir') . '/data/nurses.json';
         //Para leer el contenido del json
         $jsonContent = file_get_contents($jsonFilePath);
         //Para añadir los objetos json a un array asociativo
